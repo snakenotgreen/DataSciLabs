@@ -187,21 +187,17 @@ with col2:
 
         if not compare_df.empty:
             plt.figure(figsize=(12, 6))
-
-            # Групування та усереднення по тижнях для кожної області
             mean_df = compare_df.groupby(['Region', 'Week'])[choosen_value].mean().reset_index()
-
-            # Побудова графіка з відтінками по областях
-            sns.lineplot(data=mean_df, x="Week", y=choosen_value, hue="Region", linewidth=1)
-
-            # Виділення вибраної області товстішою лінією
-            selected_region_df = mean_df[mean_df['Region'] == region_index]
+            mean_df["RegionName"] = mean_df["Region"].map(province_dict)
+            sns.lineplot(data=mean_df, x="Week", y=choosen_value, hue="RegionName", linewidth=1)
+            selected_region_name = province_dict[region_index]
+            selected_region_df = mean_df[mean_df['RegionName'] == selected_region_name]
             sns.lineplot(data=selected_region_df, x="Week", y=choosen_value, color="black", linewidth=3,
                          label="Обрана область")
-
             plt.title(f"Порівняння {choosen_value} між регіонами ({years_range[0]}–{years_range[1]})")
             plt.xlabel("Тиждень")
             plt.ylabel(choosen_value)
+            plt.legend(title="Області", bbox_to_anchor=(1, 1))
             st.pyplot(plt)
         else:
             st.info("Немає даних для порівняння")
