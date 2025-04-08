@@ -52,7 +52,7 @@ Year, Week, SMN, SMT, VCI, TCI, VHI, Region
 
 ### ▶️ **Запуск додатку**
 ```bash
-streamlit run lab2.py
+streamlit run lab3.py
 ```
 
 
